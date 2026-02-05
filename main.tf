@@ -13,7 +13,7 @@ provider "aws" {
 }
 
 resource "aws_instance" "docker_server" {
-  instance_type = "t2.micro"
+  instance_type = "t3.micro"
   key_name      = "terraform-key"
   ami           = data.aws_ami.ubuntu.id
 
