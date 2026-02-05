@@ -27,7 +27,8 @@ jobs:
     # 3. Build Image
     - name: Build Docker Image
       run: |
-        docker build -t ${{ secrets.DOCKER_USER }}/myapp:latest .
+        docker buildx rm mybuilder || true
+        docker build --no-cache -t ${{ secrets.DOCKER_USER }}/myapp:latest .
 
 
     # 4. Push Image
