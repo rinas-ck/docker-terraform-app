@@ -20,15 +20,20 @@ jobs:
       run: |
         echo "${{ secrets.DOCKER_PASS }}" | docker login \
         -u "${{ secrets.DOCKER_USER }}" --password-stdin
-
+        
+    - name: Show files
+      run: ls -la
+      
     # 3. Build Image
     - name: Build Docker Image
-      run: docker build -t ${{ secrets.DOCKER_USER }}/myapp:latest .
+      run: |
+        docker build -t ${{ secrets.DOCKER_USER }}/myapp:latest .
 
 
     # 4. Push Image
     - name: Push Docker Image
-      run: docker push ${{ secrets.DOCKER_USER }}/myapp:latest
+      run: |
+        docker push ${{ secrets.DOCKER_USER }}/myapp:latest
 
     # 5. Setup Terraform
     - name: Setup Terraform
