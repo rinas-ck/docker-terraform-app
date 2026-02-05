@@ -29,7 +29,7 @@ jobs:
     # 4. Push Image
     - name: Push Docker Image
       run: |
-        docker push ${{ secrets.DOCKER_USER }}/myapp:latest .
+        docker push ${{ secrets.DOCKER_USER }}/myapp:latest 
 
     # 5. Setup Terraform
     - name: Setup Terraform
