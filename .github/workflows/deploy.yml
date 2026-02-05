@@ -23,11 +23,12 @@ jobs:
 
     # 3. Build Image
     - name: Build Docker Image
-      run: docker buildx build --platform linux/amd64,linux/arm64 -t ${{ secrets.DOCKER_USER }}/myapp:latest .
+      run: docker build -t ${{ secrets.DOCKER_USER }}/myapp:latest .
+
 
     # 4. Push Image
     - name: Push Docker Image
-      run: docker push ${{ secrets.DOCKER_USER }}/myapp:latest 
+      run: docker push ${{ secrets.DOCKER_USER }}/myapp:latest
 
     # 5. Setup Terraform
     - name: Setup Terraform
