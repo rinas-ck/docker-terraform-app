@@ -1,0 +1,47 @@
+name: Docker + Terraform CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    # 1. Get Code
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    # 2. Login to DockerHub
+    - name: Docker Login
+      run: |
+        echo "${{ secrets.DOCKER_PASS }}" | docker login \
+        -u "${{ secrets.DOCKER_USER }}" --password-stdin
+
+    # 3. Build Image
+    - name: Build Docker Image
+      run: |
+        docker build -t ${{ secrets.DOCKER_USER }}/myapp:latest .
+
+    # 4. Push Image
+    - name: Push Docker Image
+      run: |
+        docker push ${{ secrets.DOCKER_USER }}/myapp:latest
+
+    # 5. Setup Terraform
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+
+    # 6. Terraform Init
+    - name: Terraform Init
+      run: terraform init
+
+    # 7. Terraform Apply (Deploy)
+    - name: Terraform Apply
+      run: |
+        terraform apply -auto-approve \
+        -var="docker_user=${{ secrets.DOCKER_USER }}" \
+        -var="docker_pass=${{ secrets.DOCKER_PASS }}"
