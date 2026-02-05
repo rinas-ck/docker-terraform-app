@@ -33,6 +33,13 @@ jobs:
         push: true
         tags: ${{ secrets.DOCKER_USER }}/myapp:latest
 
+   # Configure AWS Credentials
+    - name: Configure AWS
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+         aws-region: eu-north-1
 
     # 5. Setup Terraform
     - name: Setup Terraform
