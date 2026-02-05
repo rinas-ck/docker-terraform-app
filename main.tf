@@ -15,6 +15,7 @@ provider "aws" {
 resource "aws_instance" "docker_server" {
   instance_type = "t2.micro"
   key_name      = "terraform-key"
+  ami           = data.aws_ami.ubuntu.id
 
   user_data = <<EOF
 #!/bin/bash
