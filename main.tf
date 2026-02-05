@@ -9,7 +9,7 @@ data "aws_ami" "ubuntu" {
 }
 
 provider "aws" {
-  region = "ap-south-1"
+  region = "eu-north-1"
 }
 
 resource "aws_instance" "docker_server" {
