@@ -20,21 +20,19 @@ jobs:
       run: |
         echo "${{ secrets.DOCKER_PASS }}" | docker login \
         -u "${{ secrets.DOCKER_USER }}" --password-stdin
-        
-    - name: Show files
-      run: ls -la
-      
-    # 3. Build Image
-    - name: Build Docker Image
-      run: |
-        docker buildx rm mybuilder || true
-        docker build --no-cache -t ${{ secrets.DOCKER_USER }}/myapp:latest .
 
+   # Setup buildx
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
 
-    # 4. Push Image
-    - name: Push Docker Image
-      run: |
-        docker push ${{ secrets.DOCKER_USER }}/myapp:latest
+   # Build & Push
+    - name: Build and Push Docker Image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: true
+        tags: ${{ secrets.DOCKER_USER }}/myapp:latest
+
 
     # 5. Setup Terraform
     - name: Setup Terraform
